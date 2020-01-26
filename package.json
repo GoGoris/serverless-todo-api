@@ -5,10 +5,11 @@
   "author": "Steven Goris",
   "license": "apache-2.0",
   "dependencies": {
+    "aws-xray-sdk-core": "^2.5.0",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "aws-xray-sdk-core": "^2.5.0",
+    "aws-sdk": "^2.610.0",
     "serverless-dynamodb-local": "^0.2.28",
     "serverless-offline": "^5.12.1",
     "serverless-webpack": "^5.3.1",
