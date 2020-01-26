@@ -10,7 +10,7 @@ exports.handler = (event, context, callback) => {
     const params = {
         TableName: process.env.TODOS_TABLE,
         Item: {
-            id: todoItem.id,
+            id: event.pathParameters.id,
             text: todoItem.text,
             completed: todoItem.completed
         },

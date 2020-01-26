@@ -63,6 +63,9 @@ provider:
   region: eu-west-1
   # Default memory size
   memorySize: 192
+  endpointType: regional
+  logs:
+    restApi: true
   tracing:
     lambda: true
     apiGateway: true
@@ -77,6 +80,10 @@ functions:
           path: todos
           method: POST
           cors: true
+          integration: lambda
+          request:
+            schema:
+              application/json: ${file(todos/create-schema.json)}
   get:
     handler: todos/get.handler
     events:
