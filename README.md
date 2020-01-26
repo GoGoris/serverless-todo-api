@@ -39,4 +39,5 @@ Serverless AWS Lambda CLI Reference: [https://serverless.com/framework/docs/prov
 ## Acknowledgements
 
 Based on existing example from msanand: https://github.com/msanand/serverless-todo-api
+
 I updated the project to node 12.x and added webpack.
