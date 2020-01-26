@@ -1,0 +1,19 @@
+{
+  "name": "sls-todo-api",
+  "version": "1.0.0",
+  "description": "Serverless Todo API",
+  "author": "Steven Goris",
+  "license": "apache-2.0",
+  "dependencies": {
+    "uuid": "^3.4.0",
+    "serverless-dynamodb-client": "0.0.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.609.0",
+    "serverless-dynamodb-local": "^0.2.28",
+    "serverless-offline": "^5.12.1",
+    "serverless-webpack": "^5.3.1",
+    "webpack": "^4.41.5",
+    "webpack-aws-externals": "^2.0.1"
+  }
+}
