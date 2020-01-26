@@ -64,8 +64,6 @@ provider:
   # Default memory size
   memorySize: 192
   endpointType: regional
-  logs:
-    restApi: true
   tracing:
     lambda: true
     apiGateway: true

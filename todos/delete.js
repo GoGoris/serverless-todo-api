@@ -1,6 +1,6 @@
 'use strict';
 
-const dynamoDb = require('serverless-dynamodb-client').doc;
+const dynamoDb = require('./shared/setup-aws').DocumentClient;
 
 
 exports.handler = (event, context, callback) => {
