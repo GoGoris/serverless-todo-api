@@ -11,9 +11,9 @@ exports.handler = async (event) => {
     const params = {
         TableName: process.env.TODOS_TABLE,
         Item: {
-            id: uuid(),
+            id: todoItem.id || uuid(),
             text: todoItem.text,
-            completed: false
+            completed: !!todoItem.completed
         },
     };
     return dynamoDb.put(params).promise().then(() => params.Item);

@@ -67,7 +67,10 @@ provider:
   tracing:
     lambda: true
     apiGateway: true
-
+  usagePlan:
+    throttle:
+      burstLimit: 10
+      rateLimit: 20
 # FaaS funtions
 functions:
   create:

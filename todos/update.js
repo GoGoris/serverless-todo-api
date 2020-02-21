@@ -12,8 +12,14 @@ exports.handler = (event, context, callback) => {
         Item: {
             id: event.pathParameters.id,
             text: todoItem.text,
-            completed: todoItem.completed
+            completed: !!todoItem.completed
         },
+        Expected: {
+            id: {
+                Value: event.pathParameters.id,
+                Exists: true
+            }
+        }
     };
 
     dynamoDb.put(params, (error) => {
@@ -24,7 +30,7 @@ exports.handler = (event, context, callback) => {
                 headers: {
                     'Content-Type': 'text/plain'
                 },
-                body: 'Couldn\'t update the todo item.',
+                body: error,
             });
             return;
         }

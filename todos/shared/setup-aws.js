@@ -1,5 +1,5 @@
 const AWSXRay = require('aws-xray-sdk-core');
-const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+const AWS = require('aws-sdk');
 const localPort = 8000;
 
 // Depends on serverless-offline plugion which adds IS_OFFLINE to process.env when running offline
@@ -9,8 +9,17 @@ const dynamodbLocalOptions = {
 	endpoint: "http://localhost:" + localPort
 };
 
-module.exports = {
-	AWS: AWS,
-	DocumentClient: offline ? new AWS.DynamoDB.DocumentClient(dynamodbLocalOptions) : new AWS.DynamoDB.DocumentClient(),
-	DynamoDB: offline ? new AWS.DynamoDB(dynamodbLocalOptions) : new AWS.DynamoDB()
-};
+if (offline) {
+	module.exports = {
+		AWS: AWS,
+		DocumentClient: new AWS.DynamoDB.DocumentClient(dynamodbLocalOptions),
+		DynamoDB: new AWS.DynamoDB(dynamodbLocalOptions)
+	}
+} else {
+	const awsWithXray = AWSXRay.captureAWS(AWS);
+	module.exports = {
+		AWS: awsWithXray,
+		DocumentClient: new awsWithXray.DynamoDB.DocumentClient(),
+		DynamoDB: new awsWithXray.DynamoDB()
+	}
+}
