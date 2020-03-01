@@ -3,30 +3,24 @@
 const dynamoDb = require('./shared/setup-aws').DocumentClient;
 
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event) => {
     const params = {
         TableName: process.env.TODOS_TABLE,
     };
 
-    dynamoDb.scan(params, (error, result) => {
-        // handle potential errors
-        if (error) {
-            console.error(error);
-            callback(null, {
-                statusCode: error.statusCode || 501,
+    return dynamoDb.scan(params).promise()
+        .then(result => ({
+            statusCode: 200,
+            body: JSON.stringify(result.Items),
+        }))
+        .catch(err => {
+            console.error(err);
+            return {
+                statusCode: err.statusCode || 501,
                 headers: {
                     'Content-Type': 'text/plain'
                 },
                 body: 'Couldn\'t fetch the todos.',
-            });
-            return;
-        }
-
-        // create a response
-        const response = {
-            statusCode: 200,
-            body: JSON.stringify(result.Items),
-        };
-        callback(null, response);
-    });
+            };
+        });
 };

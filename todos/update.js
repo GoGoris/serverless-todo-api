@@ -3,10 +3,8 @@
 const dynamoDb = require('./shared/setup-aws').DocumentClient;
 
 
-exports.handler = (event, context, callback) => {
-
+exports.handler = async (event) => {
     const todoItem = JSON.parse(event.body);
-
     const params = {
         TableName: process.env.TODOS_TABLE,
         Item: {
@@ -22,23 +20,26 @@ exports.handler = (event, context, callback) => {
         }
     };
 
-    dynamoDb.put(params, (error) => {
-        if (error) {
-            console.error(error);
-            callback(null, {
-                statusCode: error.statusCode || 501,
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                body: error,
-            });
-            return;
-        }
-
-        callback(null, {
+    return dynamoDb.put(params).promise()
+        .then(() => ({
             statusCode: 200,
             body: JSON.stringify(params.Item),
+        }))
+        .catch(err => {
+            console.error(err);
+            if (err.code === 'ConditionalCheckFailedException') {
+                return {
+                    statusCode: 404,
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: "Todo-item does not exist.",
+                };
+            } else {
+                return {
+                    statusCode: err.statusCode || 501,
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: err.message || "Can't update todo-item.",
+                };
+            }
         });
-    });
 
 };

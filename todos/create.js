@@ -5,9 +5,7 @@ const dynamoDb = require('./shared/setup-aws').DocumentClient;
 
 
 exports.handler = async (event) => {
-    console.log(event);
-    const todoItem = event.body;
-
+    const todoItem = JSON.parse(event.body);
     const params = {
         TableName: process.env.TODOS_TABLE,
         Item: {
@@ -16,5 +14,9 @@ exports.handler = async (event) => {
             completed: !!todoItem.completed
         },
     };
-    return dynamoDb.put(params).promise().then(() => params.Item);
+
+    return dynamoDb.put(params).promise().then(() => ({
+        statusCode: 201,
+        body: JSON.stringify(params.Item)
+    }));
 }

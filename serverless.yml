@@ -71,6 +71,8 @@ provider:
     throttle:
       burstLimit: 10
       rateLimit: 20
+  logs:
+    restApi: true
 # FaaS funtions
 functions:
   create:
@@ -81,7 +83,7 @@ functions:
           path: todos
           method: POST
           cors: true
-          integration: lambda
+          integration: lambda-proxy
           request:
             schema:
               application/json: ${file(todos/create-schema.json)}
@@ -92,6 +94,7 @@ functions:
           path: todos/{id}
           method: GET
           cors: true
+          integration: lambda-proxy
   update:
     handler: todos/update.handler
     events:
@@ -99,6 +102,7 @@ functions:
           path: todos/{id}
           method: PUT
           cors: true
+          integration: lambda-proxy
   delete:
     handler: todos/delete.handler
     events:
@@ -106,6 +110,7 @@ functions:
           path: todos/{id}
           method: DELETE
           cors: true
+          integration: lambda-proxy
   list:
     handler: todos/list.handler
     events:
@@ -113,6 +118,7 @@ functions:
           path: todos
           method: GET
           cors: true
+          integration: lambda-proxy
 
 # Configure the resources required for this service: AWS Dynamo DB Table
 resources:
