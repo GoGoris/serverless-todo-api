@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.630.0",
-    "serverless": "^1.65.0",
+    "serverless": "^1.68.0",
     "serverless-dynamodb-local": "^0.2.28",
     "serverless-offline": "^5.12.1",
     "serverless-webpack": "^5.3.1",
